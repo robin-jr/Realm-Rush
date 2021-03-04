@@ -13,15 +13,21 @@ public class EnemySpawner : MonoBehaviour
         if (enemyPrefab)
             StartCoroutine(SpawnEnemies());
     }
-
     IEnumerator SpawnEnemies()
     {
-        while (spawnEnemies)
+        while (true)
         {
-            Enemy enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-            enemy.transform.parent = transform;
-            FindObjectOfType<GameSession>().IncreaseScore();
-            yield return new WaitForSeconds(Random.Range(minSpanBetweenEnemies, maxSpanBetweenEnemies));
+            if (!spawnEnemies)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                Enemy enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+                enemy.transform.parent = transform;
+                FindObjectOfType<GameSession>().IncreaseScore();
+                yield return new WaitForSeconds(Random.Range(minSpanBetweenEnemies, maxSpanBetweenEnemies));
+            }
         }
     }
 }

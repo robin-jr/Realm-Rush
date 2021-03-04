@@ -14,6 +14,10 @@ public class Tower : MonoBehaviour
     void FindNearestTarget()
     {
         var targets = FindObjectsOfType<Enemy>();
+        if(targets.Length<1){
+            currentTarget=null;
+            return;
+        }
         currentTarget = targets[0];
         var temp = currentTarget;
         if (currentTarget)
@@ -31,16 +35,14 @@ public class Tower : MonoBehaviour
         if (currentTarget)
         {
             objectToPan.transform.LookAt(currentTarget.transform.Find("Body"));
-            // if (lazerParticleSystem)
-            lazerParticleSystem.enableEmission = true;
-            // lazer.GetComponent<ParticleSystem>().Play();
+            var emission= lazerParticleSystem.emission;
+            emission.enabled=true;
 
         }
         else
         {
-            // if (lazerParticleSystem)
-            lazerParticleSystem.enableEmission = false;
-            // lazer.GetComponent<ParticleSystem>().Pause();
+            var emission=lazerParticleSystem.emission;
+            emission.enabled=false;
         }
     }
 }
